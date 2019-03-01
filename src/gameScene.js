@@ -12,21 +12,46 @@ const GameScene = new Phaser.Class({
 
   preload: function () {
 
-    this.load.bitmapFont('prolamina', 'assets/fonts/bitmap/prolamina.png', 'assets/fonts/bitmap/prolamina.xml');
+    this.load.bitmapFont(
+      'prolamina', 
+      'assets/fonts/bitmap/prolamina.png', 
+      'assets/fonts/bitmap/prolamina.xml'
+    );
   },
 
   create: function () {
 
-    var chars = [
-      ['a', 'á', 'b', 'c', 'd', 'e', 'é', 'f', 'g', 'h', 'i', 'í'],
-      ['j', 'k', 'l', 'm', 'n', 'o', 'Q', 'R', 'S', 'T'],
-      ['U', 'V', 'W', 'X', 'Y', 'Z', '.', '-', '<', '>']
+    const keys = [
+      'q', 'w', 'e', 'r', 't', 'z', 'u', 'i', 'o', 'p', 'ő', 'ú',
+      'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'é', 'á', 'ű',
+      'í', 'y', 'x', 'c', 'v', 'b', 'n', 'm', 'ö', 'ü', 'ó'
     ];
 
-    var input = this.add.bitmapText(130, 50, 'prolamina', 'aábcdeéfghií\n\njklmnoóöőpqrs\n\ntuúüűvwxyz').setLetterSpacing(20);
+    let current = 0;
+    let out = [];
+    const scene = this;
 
-    input.setInteractive();
+    keys.forEach(function (key, i) {
+      scene.add.bitmapText(
+        130 + (i % 12) * 60, 
+        400 + Math.floor(i / 12) * 60, 
+        'prolamina', 
+        key
+      ).setOrigin(0.5).setInteractive().on('pointerup', function () {
+        out[current].text = key;
+        current = (current + 1) % 5;
+      });
+    });
 
+    
+    for (i = 0; i < 5; i += 1) {
+      out[i] = this.add.bitmapText(
+        130 + i * 60, 
+        130, 
+        'prolamina', 
+        '_'
+      ).setOrigin(0.5);
+    }
   },
 
   update: function () {
