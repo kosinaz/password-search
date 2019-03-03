@@ -14,8 +14,8 @@ const GameScene = new Phaser.Class({
 
     this.load.bitmapFont(
       'prolamina', 
-      'assets/fonts/bitmap/prolamina.png', 
-      'assets/fonts/bitmap/prolamina.xml'
+      'assets/fonts/bitmap/quadrangle.png', 
+      'assets/fonts/bitmap/quadrangle.xml'
     );
   },
 
@@ -30,13 +30,13 @@ const GameScene = new Phaser.Class({
     let current = 0;
     let word = ['f', 'a', 'l', 'a', 't'];
     let guess = [];
-    let line = 1;
+    let line = 0;
     const scene = this;
 
     chars.forEach(function (char, i) {
       scene.add.bitmapText(
-        130 + (i % 12) * 60, 
-        420 + Math.floor(i / 12) * 60, 
+        116 + (i % 12) * 72, 
+        396 + Math.floor(i / 12) * 72, 
         'prolamina', 
         char
       ).setOrigin(0.5).setInteractive().on('pointerup', function () {
@@ -49,8 +49,8 @@ const GameScene = new Phaser.Class({
     
     for (i = 0; i < 5; i += 1) {
       guess[i] = this.add.bitmapText(
-        130 + i * 60, 
-        line * 60, 
+        116 + i * 72, 
+        36 + line * 72, 
         'prolamina', 
         '_'
       ).setOrigin(0.5);
@@ -70,7 +70,7 @@ const GameScene = new Phaser.Class({
         }
       }
       if (event.key === 'Enter') {
-        if (line < 5) {
+        if (line < 4) {
           line += 1;
           for (i = 0; i < 5; i += 1) {
             if (guess[i].text === word[i]) {
@@ -79,8 +79,8 @@ const GameScene = new Phaser.Class({
               guess[i].setTint(0xffff00);
             }
             guess[i] = scene.add.bitmapText(
-              130 + i * 60,
-              line * 60,
+              116 + i * 72,
+              36 + line * 72,
               'prolamina',
               '_'
             ).setOrigin(0.5);
