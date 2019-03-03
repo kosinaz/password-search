@@ -13,9 +13,15 @@ const GameScene = new Phaser.Class({
   preload: function () {
 
     this.load.bitmapFont(
-      'prolamina', 
+      'quadrangle', 
       'assets/fonts/bitmap/quadrangle.png', 
       'assets/fonts/bitmap/quadrangle.xml'
+    );
+
+    this.load.atlas(
+      'atlas', 
+      'assets/images/atlas.png', 
+      'assets/images/atlas.json'
     );
   },
 
@@ -34,10 +40,16 @@ const GameScene = new Phaser.Class({
     const scene = this;
 
     chars.forEach(function (char, i) {
+      scene.add.image(
+        116 + (i % 12) * 64,
+        396 + Math.floor(i / 12) * 64,
+        'atlas',
+        'key_blue'
+      ).setOrigin(0.5);
       scene.add.bitmapText(
-        116 + (i % 12) * 72, 
-        396 + Math.floor(i / 12) * 72, 
-        'prolamina', 
+        116 + (i % 12) * 64, 
+        396 + Math.floor(i / 12) * 64, 
+        'quadrangle', 
         char
       ).setOrigin(0.5).setInteractive().on('pointerup', function () {
         if (current < 5) {
@@ -46,12 +58,54 @@ const GameScene = new Phaser.Class({
         }
       });
     });
+
+    scene.add.image(948, 396, 'atlas', 'backspace_blue')
+      .setOrigin(0.5)
+      .setInteractive()
+      .on('pointerup', function () {
+        if (current > 0) {
+          current -= 1;
+          guess[current].text = '_';
+        }
+      });
+
+    scene.add.image(948, 524, 'atlas', 'enter_blue')
+      .setOrigin(0.5)
+      .setInteractive()
+      .on('pointerup', function () {
+        if (line < 4) {
+          line += 1;
+          for (i = 0; i < 5; i += 1) {
+            guess[i].setTint(0x000000);
+            if (guess[i].text === word[i]) {
+              guess[i].setTint(0x00ff00);
+            } else if (word.includes(guess[i].text)) {
+              guess[i].setTint(0xff0000);
+            }
+            guess[i] = scene.add.bitmapText(
+              116 + i * 64,
+              36 + line * 64,
+              'quadrangle',
+              '_'
+            ).setOrigin(0.5);
+          }
+          current = 0;
+        }
+      });
     
     for (i = 0; i < 5; i += 1) {
+      for (j = 0; j < 5; j += 1) {
+        scene.add.image(
+          116 + i * 64,
+          36 + j * 64,
+          'atlas',
+          'key_blue'
+        ).setOrigin(0.5);
+      }
       guess[i] = this.add.bitmapText(
-        116 + i * 72, 
-        36 + line * 72, 
-        'prolamina', 
+        116 + i * 64, 
+        36 + line * 64, 
+        'quadrangle', 
         '_'
       ).setOrigin(0.5);
     }
@@ -73,15 +127,16 @@ const GameScene = new Phaser.Class({
         if (line < 4) {
           line += 1;
           for (i = 0; i < 5; i += 1) {
+            guess[i].setTint(0x000000);
             if (guess[i].text === word[i]) {
-              guess[i].setTint(0x00aa00);
+              guess[i].setTint(0x00ff00);
             } else if (word.includes(guess[i].text)){
-              guess[i].setTint(0xffff00);
+              guess[i].setTint(0xff0000);
             }
             guess[i] = scene.add.bitmapText(
-              116 + i * 72,
-              36 + line * 72,
-              'prolamina',
+              116 + i * 64,
+              36 + line * 64,
+              'quadrangle',
               '_'
             ).setOrigin(0.5);
           }
