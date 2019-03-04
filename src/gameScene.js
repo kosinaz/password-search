@@ -62,15 +62,17 @@ const GameScene = new Phaser.Class({
       });
     });
 
+    let backspace = function () {
+      if (current > 0) {
+        current -= 1;
+        guess[current].text = '_';
+      }
+    }
+
     scene.add.image(948, 396, 'atlas', 'backspace_blue')
       .setOrigin(0.5)
       .setInteractive()
-      .on('pointerup', function () {
-        if (current > 0) {
-          current -= 1;
-          guess[current].text = '_';
-        }
-      });
+      .on('pointerup', backspace);
 
     scene.add.image(948, 524, 'atlas', 'enter_blue')
       .setOrigin(0.5)
@@ -113,10 +115,7 @@ const GameScene = new Phaser.Class({
         }
       }
       if (event.key === 'Backspace') {
-        if (current > 0) {
-          current -= 1;
-          guess[current].text = '_';
-        }
+        backspace();
       }
       if (event.key === 'Enter') {
         if (line < 4) {
