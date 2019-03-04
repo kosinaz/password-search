@@ -42,6 +42,13 @@ const GameScene = new Phaser.Class({
 
     scene.add.image(0, 0, 'atlas', 'bg').setOrigin(0);
 
+    let addChar = function (char) {
+      if (current < 5) {
+        guess[current].text = char;
+        current += 1;
+      }
+    }
+
     keys.forEach(function (char, i) {
       scene.add.image(
         116 + (i % 12) * 64,
@@ -55,10 +62,7 @@ const GameScene = new Phaser.Class({
         'quadrangle', 
         char
       ).setOrigin(0.5).setInteractive().on('pointerup', function () {
-        if (current < 5) {
-          guess[current].text = char;
-          current += 1;
-        }
+        addChar(char);
       });
     });
 
@@ -111,23 +115,15 @@ const GameScene = new Phaser.Class({
 
     this.input.keyboard.on('keydown', function (event) {
       if (keys.includes(event.key)) {
-        if (current < 5) {
-          guess[current].text = event.key;
-          current += 1;
-        }
-      }
-      if (event.key === 'Backspace') {
+        addChar(event.key);
+      } else if (event.key === 'Backspace') {
         backspace();
-      }
-      if (event.key === 'Enter') {
+      } else if (event.key === 'Enter') {
         enter();
       }
     });
   },
 
-  update: function () {
-    
-    
-  }
+  update: function () {}
 
 });
