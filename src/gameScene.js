@@ -79,11 +79,11 @@ const GameScene = new Phaser.Class({
         if (line < 4) {
           line += 1;
           for (i = 0; i < 5; i += 1) {
-            guess[i].setTint(0x000000);
+            guess[i].setTint(0x006699);
             if (guess[i].text === word[i]) {
-              guess[i].setTint(0x00ff00);
+              guess[i].setTint(0xffff00);
             } else if (word.includes(guess[i].text)) {
-              guess[i].setTint(0xff0000);
+              guess[i].setTint(0x009966);
             }
             guess[i] = scene.add.bitmapText(
               384 + i * 64,
@@ -122,11 +122,11 @@ const GameScene = new Phaser.Class({
         if (line < 4) {
           line += 1;
           for (i = 0; i < 5; i += 1) {
-            guess[i].setTint(0x000000);
+            guess[i].setTint(0x006699);
             if (guess[i].text === word[i]) {
-              guess[i].setTint(0x00ff00);
+              guess[i].setTint(0xffff00);
             } else if (word.includes(guess[i].text)){
-              guess[i].setTint(0xff0000);
+              guess[i].setTint(0x009966);
             }
             guess[i] = scene.add.bitmapText(
               384 + i * 64,
