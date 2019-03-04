@@ -27,6 +27,7 @@ const GameScene = new Phaser.Class({
 
   create: function () {
 
+    const scene = this;
     const keys = [
       'q', 'w', 'e', 'r', 't', 'z', 'u', 'i', 'o', 'p', 'ő', 'ú',
       'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'é', 'á', 'ű',
@@ -37,10 +38,9 @@ const GameScene = new Phaser.Class({
     let word = ['f', 'a', 'l', 'a', 't'];
     let guess = [];
     let line = 0;
-    const scene = this;
+    let i;
 
-
-    scene.add.image(0, 0, 'atlas', 'bg').setOrigin(0);
+    this.add.image(0, 0, 'atlas', 'bg').setOrigin(0);
 
     let addChar = function (char) {
       if (current < 5) {
@@ -56,6 +56,7 @@ const GameScene = new Phaser.Class({
         'atlas',
         'key_blue'
       ).setOrigin(0.5);
+
       scene.add.bitmapText(
         116 + (i % 12) * 64, 
         396 + Math.floor(i / 12) * 64, 
@@ -73,7 +74,7 @@ const GameScene = new Phaser.Class({
       }
     }
 
-    scene.add.image(948, 396, 'atlas', 'backspace_blue')
+    this.add.image(948, 396, 'atlas', 'backspace_blue')
       .setOrigin(0.5)
       .setInteractive()
       .on('pointerup', backspace);
@@ -82,12 +83,14 @@ const GameScene = new Phaser.Class({
       if (line < 4) {
         line += 1;
         for (i = 0; i < 5; i += 1) {
+          
           guess[i].setTint(0x006699);
           if (guess[i].text === word[i]) {
             guess[i].setTint(0xffff00);
           } else if (word.includes(guess[i].text)) {
             guess[i].setTint(0x009966);
           }
+
           guess[i] = scene.add.bitmapText(
             384 + i * 64,
             64 + line * 64,
@@ -99,7 +102,7 @@ const GameScene = new Phaser.Class({
       }
     }
 
-    scene.add.image(948, 524, 'atlas', 'enter_blue')
+    this.add.image(948, 524, 'atlas', 'enter_blue')
       .setOrigin(0.5)
       .setInteractive()
       .on('pointerup', enter);
