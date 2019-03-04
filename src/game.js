@@ -4,5 +4,7 @@ const game = new Phaser.Game({
   height: 576,
   parent: "game-container",
   pixelArt: true,
-  scene: [GameScene]
+  scene: [GameScene, WinScene, LoseScene]
 });
+
+let word;

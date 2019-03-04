@@ -38,7 +38,7 @@ const GameScene = new Phaser.Class({
 
     let current = 0;    
     let words = this.cache.json.get('words');
-    let word = words[Math.floor(Math.random() * words.length)];
+    word = words[Math.floor(Math.random() * words.length)];
     let guess = [];
     let line = 0;
     let i;
@@ -83,6 +83,7 @@ const GameScene = new Phaser.Class({
       .on('pointerup', backspace);
 
     let enter = function () {
+      let guessed = '';
       if (line < 4) {
         line += 1;
         for (i = 0; i < word.length; i += 1) {
@@ -93,7 +94,8 @@ const GameScene = new Phaser.Class({
           } else if (word.includes(guess[i].text)) {
             guess[i].setTint(0x009966);
           }
-
+          
+          guessed += guess[i].text;
           guess[i] = scene.add.bitmapText(
             384 + i * 64,
             64 + line * 64,
@@ -101,7 +103,12 @@ const GameScene = new Phaser.Class({
             '_'
           ).setOrigin(0.5);
         }
+        if (guessed === word) {
+          scene.scene.start('WinScene');
+        }
         current = 0;
+      } else {
+        scene.scene.start('LoseScene');
       }
     }
 
