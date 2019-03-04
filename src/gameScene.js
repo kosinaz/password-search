@@ -42,6 +42,7 @@ const GameScene = new Phaser.Class({
     let guess = [];
     let line = 0;
     let i;
+    let keyChars = [];
 
     this.add.image(0, 0, 'atlas', 'bg').setOrigin(0);
 
@@ -60,7 +61,7 @@ const GameScene = new Phaser.Class({
         'key_blue'
       ).setOrigin(0.5);
 
-      scene.add.bitmapText(
+      keyChars[char] = scene.add.bitmapText(
         116 + (i % 12) * 64, 
         396 + Math.floor(i / 12) * 64, 
         'quadrangle', 
@@ -83,16 +84,22 @@ const GameScene = new Phaser.Class({
       .on('pointerup', backspace);
 
     let enter = function () {
+      if (current < word.length) {
+        return;
+      }
       let guessed = '';
       if (line < 4) {
         line += 1;
         for (i = 0; i < word.length; i += 1) {
-
+          guessed += guess[i].text;
           guess[i].setTint(0x006699);
+          keyChars[guess[i].text].setTint(0x006699);
           if (guess[i].text === word.charAt(i)) {
             guess[i].setTint(0xffff00);
+            keyChars[guess[i].text].setTint(0xffff00);
           } else if (word.includes(guess[i].text)) {
             guess[i].setTint(0x009966);
+            keyChars[guess[i].text].setTint(0x009966);
           }
           
           guessed += guess[i].text;
