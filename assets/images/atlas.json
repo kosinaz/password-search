@@ -2,11 +2,19 @@
 
 {
 	"filename": "backspace_blue",
-	"frame": {"x":0,"y":0,"w":56,"h":56},
+	"frame": {"x":112,"y":0,"w":56,"h":56},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":56,"h":56},
 	"sourceSize": {"w":56,"h":56}
+},
+{
+	"filename": "bg",
+	"frame": {"x":0,"y":56,"w":1024,"h":576},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1024,"h":576},
+	"sourceSize": {"w":1024,"h":576}
 },
 {
 	"filename": "enter_blue",
@@ -18,7 +26,7 @@
 },
 {
 	"filename": "key_blue",
-	"frame": {"x":112,"y":0,"w":56,"h":56},
+	"frame": {"x":0,"y":0,"w":56,"h":56},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":56,"h":56},
@@ -29,8 +37,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":168,"h":56},
+	"size": {"w":1024,"h":632},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:6ad312e835429c8b1720b015c0134f72:6436e15a622d3767fce3cebecf4976a3:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:986df4f937062a5ba1241227f717d153:b2e849e8335eef09d1e75e82fc0e8c70:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

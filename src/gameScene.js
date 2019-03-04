@@ -27,7 +27,7 @@ const GameScene = new Phaser.Class({
 
   create: function () {
 
-    const chars = [
+    const keys = [
       'q', 'w', 'e', 'r', 't', 'z', 'u', 'i', 'o', 'p', 'ő', 'ú',
       'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'é', 'á', 'ű',
       'í', 'y', 'x', 'c', 'v', 'b', 'n', 'm', 'ö', 'ü', 'ó'
@@ -39,7 +39,10 @@ const GameScene = new Phaser.Class({
     let line = 0;
     const scene = this;
 
-    chars.forEach(function (char, i) {
+
+    scene.add.image(0, 0, 'atlas', 'bg').setOrigin(0);
+
+    keys.forEach(function (char, i) {
       scene.add.image(
         116 + (i % 12) * 64,
         396 + Math.floor(i / 12) * 64,
@@ -83,8 +86,8 @@ const GameScene = new Phaser.Class({
               guess[i].setTint(0xff0000);
             }
             guess[i] = scene.add.bitmapText(
-              116 + i * 64,
-              36 + line * 64,
+              384 + i * 64,
+              64 + line * 64, 
               'quadrangle',
               '_'
             ).setOrigin(0.5);
@@ -94,24 +97,16 @@ const GameScene = new Phaser.Class({
       });
     
     for (i = 0; i < 5; i += 1) {
-      for (j = 0; j < 5; j += 1) {
-        scene.add.image(
-          116 + i * 64,
-          36 + j * 64,
-          'atlas',
-          'key_blue'
-        ).setOrigin(0.5);
-      }
       guess[i] = this.add.bitmapText(
-        116 + i * 64, 
-        36 + line * 64, 
+        384 + i * 64, 
+        64 + line * 64, 
         'quadrangle', 
         '_'
       ).setOrigin(0.5);
     }
 
     this.input.keyboard.on('keydown', function (event) {
-      if (chars.includes(event.key)) {
+      if (keys.includes(event.key)) {
         if (current < 5) {
           guess[current].text = event.key;
           current += 1;
@@ -134,8 +129,8 @@ const GameScene = new Phaser.Class({
               guess[i].setTint(0xff0000);
             }
             guess[i] = scene.add.bitmapText(
-              116 + i * 64,
-              36 + line * 64,
+              384 + i * 64,
+              64 + line * 64, 
               'quadrangle',
               '_'
             ).setOrigin(0.5);
