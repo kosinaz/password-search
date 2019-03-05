@@ -40,14 +40,20 @@ const GameScene = new Phaser.Class({
     let words = this.cache.json.get('words');
     let inputField = [];
     let numberOfGuesses = 0;
+    let guessedChars = [];
     let i;
     word = words[~~(Math.random() * words.length)];
     
     this.add.image(0, 0, 'atlas', 'bg').setOrigin(0);
     
+    let keyImages = [];
     let keyChars = [];
 
     let addChar = function (char) {
+      while (cursorPosition < word.length 
+        && guessedChars.includes(cursorPosition)) {
+          cursorPosition += 1;
+      }
       if (cursorPosition < word.length) {
         inputField[cursorPosition].text = char;
         cursorPosition += 1;
@@ -57,7 +63,7 @@ const GameScene = new Phaser.Class({
     keys.forEach(function (char, i) {
       let x = 96 + (i % 12) * 64;
       let y = 396 + ~~(i / 12) * 64;
-      scene.add.image(x, y, 'atlas', 'key_blue');
+      keyImages[char] = scene.add.image(x, y, 'atlas', 'key_blue');
       keyChars[char] = scene.add.bitmapText(x, y, 'font', char)
         .setOrigin(0.5)
         .setInteractive()
@@ -67,6 +73,10 @@ const GameScene = new Phaser.Class({
     });
 
     let backspace = function () {
+      while (cursorPosition > 0 
+        && guessedChars.includes(cursorPosition - 1)) {
+          cursorPosition -= 1;
+      }
       if (cursorPosition > 0) {
         cursorPosition -= 1;
         inputField[cursorPosition].text = '_';
@@ -78,7 +88,11 @@ const GameScene = new Phaser.Class({
       .on('pointerup', backspace);
 
     let enter = function () {
-      if (cursorPosition < word.length) {
+      while (guessedChars.includes(cursorPosition) 
+        && cursorPosition < word.length) {
+          cursorPosition += 1;
+      }
+      if (cursorPosition < word.length) {        
         return;
       }
       let guess = '';
@@ -89,20 +103,38 @@ const GameScene = new Phaser.Class({
           char = inputField[i].text;
           guess += char;
           inputField[i].setTint(0x006699);
+          keyImages[char].setTint(0x006699);
           keyChars[char].setTint(0x006699);
           if (char === word.charAt(i)) {
             inputField[i].setTint(0xffff00);
+            keyImages[char].setTint(0xffff00);
             keyChars[char].setTint(0xffff00);
+            inputField[i] = scene.add.bitmapText(
+              544 - (word.length * 32) + i * 64,
+              (numberOfGuesses + 1) * 64,
+              'font',
+              char
+            ).setOrigin(0.5);
+            inputField[i].setTint(0xffff00);
+            guessedChars.push(i);
           } else if (word.includes(char)) {
             inputField[i].setTint(0x009966);
+            keyImages[char].setTint(0x009966);
             keyChars[char].setTint(0x009966);
+            inputField[i] = scene.add.bitmapText(
+              544 - (word.length * 32) + i * 64,
+              (numberOfGuesses + 1) * 64,
+              'font',
+              '_'
+            ).setOrigin(0.5);
+          } else {
+            inputField[i] = scene.add.bitmapText(
+              544 - (word.length * 32) + i * 64,
+              (numberOfGuesses + 1) * 64,
+              'font',
+              '_'
+            ).setOrigin(0.5);
           }
-          inputField[i] = scene.add.bitmapText(
-            544 - (word.length * 32) + i * 64,
-            (numberOfGuesses + 1) * 64,
-            'font',
-            '_'
-          ).setOrigin(0.5);
         }
         if (guess === word) {
           scene.scene.start('WinScene');
