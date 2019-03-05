@@ -15,7 +15,6 @@ const LoseScene = new Phaser.Class({
     let scene = this;
     this.add.image(0, 0, 'atlas', 'bg').setOrigin(0);
     this.add.image(948, 524, 'atlas', 'enter_blue')
-      .setOrigin(0.5)
       .setInteractive()
       .on('pointerup', function () {
         scene.scene.start('GameScene');
@@ -27,7 +26,7 @@ const LoseScene = new Phaser.Class({
       }
     });
 
-    this.add.bitmapText(500, 200, 'quadrangle', word).setOrigin(0.5);
+    this.add.bitmapText(500, 200, 'font', word).setOrigin(0.5);
 
   }
 

@@ -13,7 +13,7 @@ const GameScene = new Phaser.Class({
   preload: function () {
 
     this.load.bitmapFont(
-      'quadrangle', 
+      'font', 
       'assets/fonts/bitmap/quadrangle.png', 
       'assets/fonts/bitmap/quadrangle.xml'
     );
@@ -36,99 +36,93 @@ const GameScene = new Phaser.Class({
       'í', 'y', 'x', 'c', 'v', 'b', 'n', 'm', 'ö', 'ü', 'ó'
     ];
 
-    let current = 0;    
+    let cursorPosition = 0;    
     let words = this.cache.json.get('words');
-    word = words[Math.floor(Math.random() * words.length)];
-    let guess = [];
-    let line = 0;
+    let inputField = [];
+    let numberOfGuesses = 0;
     let i;
+    word = words[~~(Math.random() * words.length)];
+    
+    this.add.image(0, 0, 'atlas', 'bg').setOrigin(0);
+    
     let keyChars = [];
 
-    this.add.image(0, 0, 'atlas', 'bg').setOrigin(0);
-
     let addChar = function (char) {
-      if (current < word.length) {
-        guess[current].text = char;
-        current += 1;
+      if (cursorPosition < word.length) {
+        inputField[cursorPosition].text = char;
+        cursorPosition += 1;
       }
     }
 
     keys.forEach(function (char, i) {
-      scene.add.image(
-        116 + (i % 12) * 64,
-        396 + Math.floor(i / 12) * 64,
-        'atlas',
-        'key_blue'
-      ).setOrigin(0.5);
-
-      keyChars[char] = scene.add.bitmapText(
-        116 + (i % 12) * 64, 
-        396 + Math.floor(i / 12) * 64, 
-        'quadrangle', 
-        char
-      ).setOrigin(0.5).setInteractive().on('pointerup', function () {
-        addChar(char);
+      let x = 96 + (i % 12) * 64;
+      let y = 396 + ~~(i / 12) * 64;
+      scene.add.image(x, y, 'atlas', 'key_blue');
+      keyChars[char] = scene.add.bitmapText(x, y, 'font', char)
+        .setOrigin(0.5)
+        .setInteractive()
+        .on('pointerup', function () {
+          addChar(char);
       });
     });
 
     let backspace = function () {
-      if (current > 0) {
-        current -= 1;
-        guess[current].text = '_';
+      if (cursorPosition > 0) {
+        cursorPosition -= 1;
+        inputField[cursorPosition].text = '_';
       }
     }
 
-    this.add.image(948, 396, 'atlas', 'backspace_blue')
-      .setOrigin(0.5)
+    this.add.image(928, 396, 'atlas', 'backspace_blue')
       .setInteractive()
       .on('pointerup', backspace);
 
     let enter = function () {
-      if (current < word.length) {
+      if (cursorPosition < word.length) {
         return;
       }
-      let guessed = '';
-      if (line < 4) {
-        line += 1;
+      let guess = '';
+      if (numberOfGuesses < 4) {
+        numberOfGuesses += 1;
         for (i = 0; i < word.length; i += 1) {
-          guessed += guess[i].text;
-          guess[i].setTint(0x006699);
-          keyChars[guess[i].text].setTint(0x006699);
-          if (guess[i].text === word.charAt(i)) {
-            guess[i].setTint(0xffff00);
-            keyChars[guess[i].text].setTint(0xffff00);
-          } else if (word.includes(guess[i].text)) {
-            guess[i].setTint(0x009966);
-            keyChars[guess[i].text].setTint(0x009966);
+          guess += inputField[i].text;
+          inputField[i].setTint(0x006699);
+          keyChars[inputField[i].text].setTint(0x006699);
+          if (inputField[i].text === word.charAt(i)) {
+            inputField[i].setTint(0xffff00);
+            keyChars[inputField[i].text].setTint(0xffff00);
+          } else if (word.includes(inputField[i].text)) {
+            inputField[i].setTint(0x009966);
+            keyChars[inputField[i].text].setTint(0x009966);
           }
           
-          guessed += guess[i].text;
-          guess[i] = scene.add.bitmapText(
+          guess += inputField[i].text;
+          inputField[i] = scene.add.bitmapText(
             384 + i * 64,
-            64 + line * 64,
-            'quadrangle',
+            64 + numberOfGuesses * 64,
+            'font',
             '_'
           ).setOrigin(0.5);
         }
-        if (guessed === word) {
+        if (guess === word) {
           scene.scene.start('WinScene');
         }
-        current = 0;
+        cursorPosition = 0;
       } else {
         scene.scene.start('LoseScene');
       }
     }
 
-    this.add.image(948, 524, 'atlas', 'enter_blue')
+    this.add.image(928, 524, 'atlas', 'enter_blue')
       .setOrigin(0.5)
       .setInteractive()
       .on('pointerup', enter);
     
     for (i = 0; i < word.length; i += 1) {
-      guess[i] = this.add.bitmapText(
+      inputField[i] = this.add.bitmapText(
         384 + i * 64, 
-        64 + line * 64, 
-        'quadrangle', 
+        64 + numberOfGuesses * 64, 
+        'font', 
         '_'
       ).setOrigin(0.5);
     }
