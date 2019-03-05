@@ -98,8 +98,8 @@ const GameScene = new Phaser.Class({
             keyChars[char].setTint(0x009966);
           }
           inputField[i] = scene.add.bitmapText(
-            384 + i * 64,
-            64 + numberOfGuesses * 64,
+            544 - (word.length * 32) + i * 64,
+            (numberOfGuesses + 1) * 64,
             'font',
             '_'
           ).setOrigin(0.5);
@@ -120,8 +120,8 @@ const GameScene = new Phaser.Class({
     
     for (i = 0; i < word.length; i += 1) {
       inputField[i] = this.add.bitmapText(
-        384 + i * 64, 
-        64 + numberOfGuesses * 64, 
+        544 - (word.length * 32) + i * 64,
+        (numberOfGuesses + 1) * 64, 
         'font', 
         '_'
       ).setOrigin(0.5);
