@@ -82,21 +82,21 @@ const GameScene = new Phaser.Class({
         return;
       }
       let guess = '';
+      let char;
       if (numberOfGuesses < 4) {
         numberOfGuesses += 1;
         for (i = 0; i < word.length; i += 1) {
-          guess += inputField[i].text;
+          char = inputField[i].text;
+          guess += char;
           inputField[i].setTint(0x006699);
-          keyChars[inputField[i].text].setTint(0x006699);
-          if (inputField[i].text === word.charAt(i)) {
+          keyChars[char].setTint(0x006699);
+          if (char === word.charAt(i)) {
             inputField[i].setTint(0xffff00);
-            keyChars[inputField[i].text].setTint(0xffff00);
-          } else if (word.includes(inputField[i].text)) {
+            keyChars[char].setTint(0xffff00);
+          } else if (word.includes(char)) {
             inputField[i].setTint(0x009966);
-            keyChars[inputField[i].text].setTint(0x009966);
+            keyChars[char].setTint(0x009966);
           }
-          
-          guess += inputField[i].text;
           inputField[i] = scene.add.bitmapText(
             384 + i * 64,
             64 + numberOfGuesses * 64,

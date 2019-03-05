@@ -14,7 +14,7 @@ const WinScene = new Phaser.Class({
 
     let scene = this;
     this.add.image(0, 0, 'atlas', 'bg').setOrigin(0);
-    this.add.image(948, 524, 'atlas', 'enter_blue')
+    this.add.image(928, 524, 'atlas', 'enter_blue')
       .setInteractive()
       .on('pointerup', function () {
         scene.scene.start('GameScene');
