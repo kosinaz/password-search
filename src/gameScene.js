@@ -164,6 +164,9 @@ const GameScene = new Phaser.Class({
             'font',
             guessedCharPositions.includes(i) ? word.charAt(i) : '_'
           ).setOrigin(0.5);
+          if (guessedCharPositions.includes(i)) {
+            inputField[i].setTint(0xffff00);
+          }
         }
         if (guess === word) {
           scene.scene.start('WinScene');
