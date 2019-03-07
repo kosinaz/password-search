@@ -10,23 +10,6 @@ const GameScene = new Phaser.Class({
       });
     },
 
-  preload: function () {
-
-    this.load.bitmapFont(
-      'font', 
-      'assets/fonts/bitmap/quadrangle.png', 
-      'assets/fonts/bitmap/quadrangle.xml'
-    );
-
-    this.load.atlas(
-      'atlas', 
-      'assets/images/atlas.png', 
-      'assets/images/atlas.json'
-    );
-
-    this.load.json('words', 'data/words.json');
-  },
-
   create: function () {
 
     const scene = this;
